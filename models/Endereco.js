@@ -42,7 +42,7 @@ Endereco.init({
     },
 },
 {
-    saquelize,
+    sequelize,
     modelName: 'Endereco',
     tableName: 'endereco',
     timestamps: true,

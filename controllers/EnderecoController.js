@@ -19,15 +19,6 @@ exports.createEndereco = async (req, res)=>{
     }
 }
 
-exports.getAllEnderecos = async (req, res)=>{
-    try{
-        const enderecos = await Endereco.findAll();
-        res.status(200).json(enderecos);
-    }catch(error){
-        res.status(500).json({error: 'Erro ao buscar enderecos', details: error.message});
-    }
-}
-
 exports.getEnderecoById = async(req, res)=>{
     try{
         const {Id} = req.params;
@@ -41,6 +32,15 @@ exports.getEnderecoById = async(req, res)=>{
     }
 }
 
+exports.getAllEnderecos = async (req, res)=>{
+    try{
+        const enderecos = await Endereco.findAll();
+        res.status(200).json(enderecos);
+    }catch(error){
+        res.status(500).json({error: 'Erro ao buscar enderecos', details: error.message});
+    }
+}
+
 exports.updateEndereco = async (req, res) => {
     try {
         const { Id } = req.params;
@@ -50,7 +50,6 @@ exports.updateEndereco = async (req, res) => {
         if (!endereco) {
             return res.status(404).json({ error: 'Endereço não encontrado' });
         }
-
         endereco.Cep = Cep;
         endereco.Logradouro = Logradouro;
         endereco.Numero = Numero;
@@ -59,9 +58,7 @@ exports.updateEndereco = async (req, res) => {
         endereco.Cidade = Cidade;
         endereco.Estado = Estado;
         endereco.MunicipioIBGE = MunicipioIBGE;
-
         await endereco.save();
-
         res.status(200).json(endereco);
         } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar endereço', details: error.message });
@@ -71,16 +68,12 @@ exports.updateEndereco = async (req, res) => {
 exports.deleteEndereco = async (req, res) => {
     try {
         const { Id } = req.params;
-    
         const endereco = await Endereco.findByPk(Id);
-    
         if (!endereco) {
         return res.status(404).json({ error: 'Endereço não encontrado' });
         }
-    
         await endereco.destroy();
-    
-        res.status(204).send(); // Sem conteúdo, pois foi deletado com sucesso
+        res.status(204).send();
     } catch (error) {
         res.status(500).json({ error: 'Erro ao deletar endereço', details: error.message });
     }
